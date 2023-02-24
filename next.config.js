@@ -11,7 +11,7 @@ const nextConfig = {
     ],
   },
   env: {
-    REPLICATE_API_TOKEN: "f57271f05d3921a0ccbb2e3ea5737827e7fced4c",
+    REPLICATE_API_TOKEN: "",
   },
 };
 

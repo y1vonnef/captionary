@@ -24,6 +24,10 @@ export default function Home() {
   const [initialPrompt] = useState(seed.prompt);
   const [scribble, setScribble] = useState(null);
 
+  //game code
+  const [isScribblerPressed, setIsScribblerPressed] = useState(false);
+  const [isPromptGuesserPressed, setIsPromptGuesserPressed] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -81,6 +85,14 @@ export default function Home() {
     setIsProcessing(false);
   };
 
+  const handleScribbler = () => {
+    setIsScribblerPressed(true);
+  };
+
+  const handlePromptGuesser = () => {
+    setIsPromptGuesserPressed(true);
+  };
+
   return (
     <div>
       <Head>
@@ -103,12 +115,32 @@ export default function Home() {
               {pkg.appSubtitle}
             </p>
           </hgroup>
+          <div className="flex justify-around">
+            <button
+              className="rounded-md bg-slate-900 px-8 py-4 text-white mb-10 disabled:opacity-75"
+              onClick={() => handleScribbler()}
+              disabled={isPromptGuesserPressed}
+            >
+              Scribbler
+            </button>
+            <button
+              className="rounded-md bg-slate-900 px-8 py-4 text-white mb-10 disabled:opacity-75"
+              onClick={() => handlePromptGuesser()}
+              disabled={isScribblerPressed}
+            >
+              Prompt Guesser
+            </button>
+          </div>
+          {isPromptGuesserPressed && (
+            <input className="block w-full flex-grow rounded-l-md"></input>
+          )}
 
           <Canvas
-            startingPaths={seed.paths}
+            // startingPaths={seed.paths}
             onScribble={setScribble}
             scribbleExists={scribbleExists}
             setScribbleExists={setScribbleExists}
+            isScribblerPressed={isScribblerPressed}
           />
 
           <PromptForm

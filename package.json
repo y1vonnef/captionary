@@ -1,9 +1,9 @@
 {
-  "name": "scribble-diffusion",
-  "description": "Turn your sketch into a refined image using AI",
-  "appName": "Scribble Diffusion",
-  "appSubtitle": "Turn your sketch into a refined image using AI",
-  "appMetaDescription": "Turn your sketch into a refined image using AI",
+  "name": "Captionary",
+  "description": "To play a game, you can either choose to be a scribbler, or a prompt guesser by pressing the buttons below",
+  "appName": "Captionary",
+  "appSubtitle": "To play a game, you can either choose to be a scribbler, or a prompt guesser by pressing the buttons below",
+  "appMetaDescription": "To play a game, you can either choose to be a scribbler, or a prompt guesser by pressing the buttons below",
   "version": "1.0.0",
   "private": true,
   "scripts": {

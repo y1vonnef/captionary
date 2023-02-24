@@ -5,10 +5,10 @@ import { ReactSketchCanvas } from "react-sketch-canvas";
 import { Undo as UndoIcon, Trash as TrashIcon } from "lucide-react";
 
 export default function Canvas({
-  startingPaths,
   onScribble,
   scribbleExists,
   setScribbleExists,
+  isScribblerPressed,
 }) {
   const canvasRef = React.useRef(null);
 
@@ -17,7 +17,7 @@ export default function Canvas({
   }, []);
 
   async function loadStartingPaths() {
-    await canvasRef.current.loadPaths(startingPaths);
+    //await canvasRef.current.loadPaths(startingPaths);
     setScribbleExists(true);
     onChange();
   }
@@ -60,6 +60,7 @@ export default function Canvas({
         strokeColor="black"
         onChange={onChange}
         withTimestamp={true}
+        style={{ display: isScribblerPressed ? "block" : "none" }}
       />
 
       {scribbleExists && (

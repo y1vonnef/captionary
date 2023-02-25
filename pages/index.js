@@ -1,7 +1,7 @@
 import Canvas from "components/canvas";
 import PromptForm from "components/prompt-form";
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Predictions from "components/predictions";
 import Error from "components/error";
 import uploadFile from "lib/upload";
@@ -9,10 +9,23 @@ import Script from "next/script";
 import seeds from "lib/seeds";
 import pkg from "../package.json";
 import sleep from "lib/sleep";
+import io from 'socket.io-client';
 
-const HOST = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+// const HOST = process.env.VERCEL_URL
+//   ? `https://${process.env.VERCEL_URL}`
+//   : "http://localhost:3000";
+
+const HOST = "http://localhost:3000";
+
+
+const connectionOptions = {
+  "force new connection" : true,
+  "reconnectionAttempts": "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
+  "timeout" : 10000,                  //before connect_error and connect_timeout are emitted.
+  "transports" : ["websocket"]
+};
+
+const socket = io("http://localhost:5000", connectionOptions);
 
 export default function Home() {
   const [error, setError] = useState(null);
@@ -92,6 +105,21 @@ export default function Home() {
   const handlePromptGuesser = () => {
     setIsPromptGuesserPressed(true);
   };
+
+  const [isConnected, setIsConnected] = useState(socket.connected);
+
+  useEffect(() => {
+    socket.on('connect', () => {
+      setIsConnected(true);
+    });
+    socket.on('disconnect', () => {
+      setIsConnected(false);
+    });
+    return () => {
+      socket.off('connect');
+      socket.off('disconnect');
+    };
+  }, []);
 
   return (
     <div>

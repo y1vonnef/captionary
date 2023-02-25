@@ -100,10 +100,12 @@ export default function Home() {
 
   const handleScribbler = () => {
     setIsScribblerPressed(true);
+    socket.emit("is_scribbler", true);
   };
 
   const handlePromptGuesser = () => {
     setIsPromptGuesserPressed(true);
+    socket.emit("is_guesser", true);
   };
 
   const [isConnected, setIsConnected] = useState(socket.connected);

@@ -26,7 +26,7 @@ const connectionOptions = {
   transports: ["websocket"],
 };
 
-const socket = io("http://localhost:5000", connectionOptions);
+const socket = io(process.env.PORT, connectionOptions);
 
 export default function Home() {
   const [error, setError] = useState(null);

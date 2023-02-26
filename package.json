@@ -6,6 +6,9 @@
   "appMetaDescription": "To play a game, you can either choose to be a scribbler, or a prompt guesser by pressing the buttons below",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

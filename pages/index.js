@@ -13,11 +13,11 @@ import sleep from "lib/sleep";
 import io from "socket.io-client";
 import SocketContext from "components/socket-context";
 
-// const HOST = process.env.VERCEL_URL
-//   ? `https://${process.env.VERCEL_URL}`
-//   : "http://localhost:3000";
+const HOST = process.env.NODE_ENV
+  ? `https://captionary-mlart.herokuapp.com/`
+  : "http://localhost:3000";
 
-const HOST = "http://localhost:3000";
+// const HOST = "http://localhost:3000";
 
 const connectionOptions = {
   "force new connection": true,

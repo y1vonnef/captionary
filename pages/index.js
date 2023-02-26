@@ -21,7 +21,7 @@ const HOST = (process.env.NODE_ENV == "production")
 
 const ENDPOINT = (process.env.NODE_ENV == "production") 
 ? `https://captionary-mlart.herokuapp.com/`
-: "http://localhost:5000";
+: "http://localhost:3000";
 
 const connectionOptions = {
   "force new connection": true,
@@ -31,7 +31,7 @@ const connectionOptions = {
   autoconnect: true
 };
 
-const socket = io(ENDPOINT, connectionOptions);
+const socket = io(connectionOptions);
 
 export default function Home() {
   const [error, setError] = useState(null);

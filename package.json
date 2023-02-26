@@ -14,7 +14,6 @@
     "test": "npm run lint && npm run build"
   },
   "dependencies": {
-    "@vercel/analytics": "^0.1.10",
     "@vercel/og": "^0.1.0",
     "autoprefixer": "^10.4.8",
     "concurrently": "^7.6.0",

@@ -28,6 +28,11 @@ This app is powered by:
 1. Install dependencies and run the server:
    ```
    npm install
+
+   // start frontend app
    npm run dev
+
+   // start server 
+   node .\server\index.js
    ```
 1. Open [localhost:3000](http://localhost:3000) in your browser. That's it!

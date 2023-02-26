@@ -26,7 +26,7 @@ const connectionOptions = {
   transports: ["websocket"],
 };
 
-const socket = io(HOST, connectionOptions);
+const socket = io("http://localhost:5000", connectionOptions);
 
 export default function Home() {
   const [error, setError] = useState(null);
@@ -79,7 +79,7 @@ export default function Home() {
 
     if (response.status !== 201) {
       setError(prediction.detail);
-      socket.emit("prediction_done", false);
+      socket.emit("prediction_failed");
       return;
     }
 
@@ -96,12 +96,12 @@ export default function Home() {
       }));
       if (response.status !== 200) {
         setError(prediction.detail);
-        socket.emit("prediction_done", false);
+        socket.emit("prediction_failed");
         return;
       }
-      socket.emit("prediction_done", predictions);
     }
     socket.emit("prediction_done", predictions);
+    console.log("predictions returned");
     setIsProcessing(false);
   };
 
@@ -121,6 +121,10 @@ export default function Home() {
       //OK SO 'data' IS THE TEXT INPUT TO THE MODEL
       console.log("i am the scribbler and i have the guess and it is" + data);
       setPrompt(data);
+    });
+    socket.on("have_predicted", (data) => {
+      console.log("predictions have returned from scribbler!!");
+      //'data' here should be the images? unclear
     });
     return () => {};
   }, []);

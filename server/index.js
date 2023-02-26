@@ -26,4 +26,12 @@ io.sockets.on("connection", (socket) => {
     console.log(data);
     socket.to("scribbling").emit("have_guessed", data);
   });
+  socket.on("prediction_done", (data) => {
+    console.log("server received prediction done");
+    socket.to("guessing").emit("have_predicted", data);
+  });
+  socket.on("prediction_failed", () => {
+    console.log("server received prediction failed");
+    socket.to("guessing").emit("prediction_failed");
+  });
 });

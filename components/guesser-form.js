@@ -17,7 +17,7 @@ class GuesserForm extends React.Component {
     // alert('A name was submitted: ' + this.state.value);
     console.log(this.state.value);
     this.props.socket.emit("guess", this.state.value);
-    // event.preventDefault();
+    event.preventDefault();
   }
 
   render() {

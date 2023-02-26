@@ -43,8 +43,6 @@ export default function Home() {
   const [isPromptGuesserPressed, setIsPromptGuesserPressed] = useState(false);
   const [prompt, setPrompt] = useState(null);
 
-  
-
   const handleSubmit = async (e) => {
     if (prompt == null) {
       alert("guesser hasn't guessed yet!");
@@ -54,8 +52,6 @@ export default function Home() {
 
     // track submissions so we can show a spinner while waiting for the next prediction to be created
     setSubmissionCount(submissionCount + 1);
-
-    // const prompt = e.target.prompt.value;
 
     setError(null);
     setIsProcessing(true);
@@ -83,6 +79,7 @@ export default function Home() {
 
     if (response.status !== 201) {
       setError(prediction.detail);
+      socket.emit("prediction_done", false);
       return;
     }
 
@@ -99,10 +96,12 @@ export default function Home() {
       }));
       if (response.status !== 200) {
         setError(prediction.detail);
+        socket.emit("prediction_done", false);
         return;
       }
+      socket.emit("prediction_done", predictions);
     }
-
+    socket.emit("prediction_done", predictions);
     setIsProcessing(false);
   };
 

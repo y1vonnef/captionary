@@ -1,5 +1,6 @@
 import Canvas from "components/canvas";
 import PromptForm from "components/prompt-form";
+import GuesserForm from "components/guesser-form";
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import Predictions from "components/predictions";
@@ -10,13 +11,13 @@ import seeds from "lib/seeds";
 import pkg from "../package.json";
 import sleep from "lib/sleep";
 import io from 'socket.io-client';
+import SocketContext from 'components/socket-context'
 
 // const HOST = process.env.VERCEL_URL
 //   ? `https://${process.env.VERCEL_URL}`
 //   : "http://localhost:3000";
 
 const HOST = "http://localhost:3000";
-
 
 const connectionOptions = {
   "force new connection" : true,
@@ -40,14 +41,21 @@ export default function Home() {
   //game code
   const [isScribblerPressed, setIsScribblerPressed] = useState(false);
   const [isPromptGuesserPressed, setIsPromptGuesserPressed] = useState(false);
+  const [prompt, setPrompt] = useState(null);
+
+  
 
   const handleSubmit = async (e) => {
+    if (prompt == null) {
+      alert("guesser hasn't guessed yet!");
+      return;
+    }
     e.preventDefault();
 
     // track submissions so we can show a spinner while waiting for the next prediction to be created
     setSubmissionCount(submissionCount + 1);
 
-    const prompt = e.target.prompt.value;
+    // const prompt = e.target.prompt.value;
 
     setError(null);
     setIsProcessing(true);
@@ -98,6 +106,7 @@ export default function Home() {
     setIsProcessing(false);
   };
 
+  // send scribbler or guesser identity to server on button press
   const handleScribbler = () => {
     setIsScribblerPressed(true);
     socket.emit("is_scribbler", true);
@@ -108,22 +117,18 @@ export default function Home() {
     socket.emit("is_guesser", true);
   };
 
-  const [isConnected, setIsConnected] = useState(socket.connected);
-
   useEffect(() => {
-    socket.on('connect', () => {
-      setIsConnected(true);
-    });
-    socket.on('disconnect', () => {
-      setIsConnected(false);
+    socket.on('have_guessed', data => {
+      //OK SO 'data' IS THE TEXT INPUT TO THE MODEL
+      console.log("i am the scribbler and i have the guess and it is" + data);
+      setPrompt(data);
     });
     return () => {
-      socket.off('connect');
-      socket.off('disconnect');
     };
   }, []);
 
   return (
+    <SocketContext.Provider value={socket}>
     <div>
       <Head>
         <meta name="description" content={pkg.appMetaDescription} />
@@ -162,9 +167,10 @@ export default function Home() {
             </button>
           </div>
           {isPromptGuesserPressed && (
-            <input className="block w-full flex-grow rounded-l-md"></input>
-          )}
-
+              <SocketContext.Consumer>
+                {socket => <GuesserForm socket={socket} /> }
+              </SocketContext.Consumer>
+            )}
           <Canvas
             // startingPaths={seed.paths}
             onScribble={setScribble}
@@ -192,5 +198,6 @@ export default function Home() {
 
       <Script src="https://js.upload.io/upload-js-full/v1" />
     </div>
+    </SocketContext.Provider>
   );
 }

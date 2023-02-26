@@ -22,4 +22,8 @@ io.sockets.on("connection", (socket) => {
     // client sending the coordinates will not receive back what it already sent.
     // socket.broadcast.emit("coordinates", data);
   });
+  socket.on("guess", (data) => {
+    console.log(data);
+    socket.to("scribbling").emit("have_guessed", data);
+  });
 });

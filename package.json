@@ -31,7 +31,10 @@
     "react-spinners": "^0.13.8",
     "socket.io": "^4.6.1",
     "socket.io-client": "^4.6.1",
-    "upload-js-full": "^1.22.0"
+    "upload-js-full": "^1.22.0",
+    "postcss": "^8.4.16",
+    "tailwindcss": "^3.1.8",
+    "tailwindcss-animate": "^1.0.5"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.8",
@@ -39,7 +42,6 @@
     "eslint-config-next": "12.2.5",
     "postcss": "^8.4.16",
     "tailwindcss": "^3.1.8",
-    "@tailwindcss/postcss7-compat": "^2.2.7",
     "tailwindcss-animate": "^1.0.5"
   }
 }

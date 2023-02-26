@@ -34,7 +34,10 @@
     "upload-js-full": "^1.22.0",
     "postcss": "^8.4.16",
     "tailwindcss": "^3.1.8",
-    "tailwindcss-animate": "^1.0.5"
+    "tailwindcss-animate": "^1.0.5",
+    "autoprefixer": "^10.4.8",
+    "eslint": "8.23.0",
+    "eslint-config-next": "12.2.5"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.8",

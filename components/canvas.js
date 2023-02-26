@@ -64,7 +64,10 @@ export default function Canvas({
       />
 
       {scribbleExists && (
-        <div className="animate-in fade-in duration-700 text-left">
+        <div
+          className="animate-in fade-in duration-700 text-left"
+          style={{ display: isScribblerPressed ? "block" : "none" }}
+        >
           <button className="lil-button" onClick={undo}>
             <UndoIcon className="icon" />
             Undo

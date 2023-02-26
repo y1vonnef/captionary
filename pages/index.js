@@ -10,8 +10,8 @@ import Script from "next/script";
 import seeds from "lib/seeds";
 import pkg from "../package.json";
 import sleep from "lib/sleep";
-import io from 'socket.io-client';
-import SocketContext from 'components/socket-context'
+import io from "socket.io-client";
+import SocketContext from "components/socket-context";
 
 // const HOST = process.env.VERCEL_URL
 //   ? `https://${process.env.VERCEL_URL}`
@@ -20,10 +20,10 @@ import SocketContext from 'components/socket-context'
 const HOST = "http://localhost:3000";
 
 const connectionOptions = {
-  "force new connection" : true,
-  "reconnectionAttempts": "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
-  "timeout" : 10000,                  //before connect_error and connect_timeout are emitted.
-  "transports" : ["websocket"]
+  "force new connection": true,
+  reconnectionAttempts: "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
+  timeout: 10000, //before connect_error and connect_timeout are emitted.
+  transports: ["websocket"],
 };
 
 const socket = io("http://localhost:5000", connectionOptions);
@@ -117,86 +117,91 @@ export default function Home() {
   };
 
   useEffect(() => {
-    socket.on('have_guessed', data => {
+    socket.on("have_guessed", (data) => {
       //OK SO 'data' IS THE TEXT INPUT TO THE MODEL
       console.log("i am the scribbler and i have the guess and it is" + data);
       setPrompt(data);
     });
-    return () => {
-    };
+    return () => {};
   }, []);
 
   return (
     <SocketContext.Provider value={socket}>
-    <div>
-      <Head>
-        <meta name="description" content={pkg.appMetaDescription} />
-        <meta property="og:title" content={pkg.appName} />
-        <meta property="og:description" content={pkg.appMetaDescription} />
-        <meta
-          property="og:image"
-          content={`${HOST}/og-b7xwc4g4wrdrtneilxnbngzvti.png`}
-        />
-        <title>{pkg.appName}</title>s
-      </Head>
-      <main className="container max-w-[1024px] mx-auto p-5 ">
-        <div className="container max-w-[512px] mx-auto">
-          <hgroup>
-            <h1 className="text-center text-5xl font-bold m-4">
-              {pkg.appName}
-            </h1>
-            <p className="text-center text-xl opacity-60 m-4">
-              {pkg.appSubtitle}
-            </p>
-          </hgroup>
-          <div className="flex justify-around">
-            <button
-              className="rounded-md bg-slate-900 px-8 py-4 text-white mb-10 disabled:opacity-75"
-              onClick={() => handleScribbler()}
-              disabled={isPromptGuesserPressed}
-            >
-              Scribbler
-            </button>
-            <button
-              className="rounded-md bg-slate-900 px-8 py-4 text-white mb-10 disabled:opacity-75"
-              onClick={() => handlePromptGuesser()}
-              disabled={isScribblerPressed}
-            >
-              Prompt Guesser
-            </button>
-          </div>
-          {isPromptGuesserPressed && (
+      <div>
+        <Head>
+          <meta name="description" content={pkg.appMetaDescription} />
+          <meta property="og:title" content={pkg.appName} />
+          <meta property="og:description" content={pkg.appMetaDescription} />
+          <meta
+            property="og:image"
+            content={`${HOST}/og-b7xwc4g4wrdrtneilxnbngzvti.png`}
+          />
+          <title>{pkg.appName}</title>
+        </Head>
+        <main className="container max-w-[1024px] mx-auto p-5 ">
+          <div className="container max-w-[512px] mx-auto">
+            <hgroup>
+              <h1 className="text-center text-5xl font-bold m-4">
+                {pkg.appName}
+              </h1>
+              <p className="text-center text-xl opacity-60 m-4">
+                {pkg.appSubtitle}
+              </p>
+            </hgroup>
+            <div className="flex justify-around">
+              <button
+                className="rounded-md bg-slate-900 px-8 py-4 text-white mb-5 disabled:opacity-25"
+                onClick={() => handleScribbler()}
+                disabled={isPromptGuesserPressed}
+              >
+                Scribbler
+              </button>
+              <button
+                className="rounded-md bg-slate-900 px-8 py-4 text-white mb-5 disabled:opacity-25"
+                onClick={() => handlePromptGuesser()}
+                disabled={isScribblerPressed}
+              >
+                Prompt Guesser
+              </button>
+            </div>
+            {isPromptGuesserPressed && (
               <SocketContext.Consumer>
-                {socket => <GuesserForm socket={socket} /> }
+                {(socket) => <GuesserForm socket={socket} />}
               </SocketContext.Consumer>
             )}
-          <Canvas
-            // startingPaths={seed.paths}
-            onScribble={setScribble}
-            scribbleExists={scribbleExists}
-            setScribbleExists={setScribbleExists}
-            isScribblerPressed={isScribblerPressed}
-          />
+            {isScribblerPressed && (
+              <PromptForm
+                initialPrompt={initialPrompt}
+                onSubmit={handleSubmit}
+                isProcessing={isProcessing}
+                scribbleExists={scribbleExists}
+              />
+            )}
+            <Canvas
+              // startingPaths={seed.paths}
+              onScribble={setScribble}
+              scribbleExists={scribbleExists}
+              setScribbleExists={setScribbleExists}
+              isScribblerPressed={isScribblerPressed}
+            />
+            {/* <PromptForm
+              initialPrompt={initialPrompt}
+              onSubmit={handleSubmit}
+              isProcessing={isProcessing}
+              scribbleExists={scribbleExists}
+            /> */}
+            <Error error={error} />
+          </div>
 
-          <PromptForm
-            initialPrompt={initialPrompt}
-            onSubmit={handleSubmit}
+          <Predictions
+            predictions={predictions}
             isProcessing={isProcessing}
-            scribbleExists={scribbleExists}
+            submissionCount={submissionCount}
           />
+        </main>
 
-          <Error error={error} />
-        </div>
-
-        <Predictions
-          predictions={predictions}
-          isProcessing={isProcessing}
-          submissionCount={submissionCount}
-        />
-      </main>
-
-      <Script src="https://js.upload.io/upload-js-full/v1" />
-    </div>
+        <Script src="https://js.upload.io/upload-js-full/v1" />
+      </div>
     </SocketContext.Provider>
   );
 }

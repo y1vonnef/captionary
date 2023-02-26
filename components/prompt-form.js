@@ -20,7 +20,10 @@ export default function PromptForm({
 
   return (
     <form onSubmit={handleSubmit} className="animate-in fade-in duration-700">
-      <div className="flex mt-4">
+      <p>
+        <strong>Please draw the following prompt:</strong>
+      </p>
+      <div className="flex mt-4 mb-5">
         <input
           id="prompt-input"
           type="text"
@@ -28,17 +31,18 @@ export default function PromptForm({
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Describe the image you want to create..."
-          className="block w-full flex-grow rounded-l-md"
+          className="block w-full flex-grow rounded-l-md border-none"
+          disabled="true"
         />
 
         <button
-          className={`bg-black text-white rounded-r-md text-small inline-block px-5 py-3 flex-none ${
+          className={`bg-black text-white rounded-md text-small inline-block px-5 py-3 flex-none ${
             disabled ? "opacity-20 cursor-not-allowed	" : ""
           }`}
           type="submit"
           disabled={disabled}
         >
-          Go
+          Done
         </button>
       </div>
     </form>

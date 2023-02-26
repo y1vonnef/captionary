@@ -2,9 +2,10 @@
 const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
+const INDEX = './pages/index.js';
 
 const port = (process.env.PORT || 3000);
-server.listen(port);
+server.use((req, res) => res.sendFile(INDEX, { root: __dirname })).listen(port);
 
 io.sockets.on("connection", (socket) => {
   console.log(`new connection: ${socket.id}`);

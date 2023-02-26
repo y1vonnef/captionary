@@ -13,20 +13,25 @@ import sleep from "lib/sleep";
 import io from "socket.io-client";
 import SocketContext from "components/socket-context";
 
-const HOST = process.env.NODE_ENV
+const HOST = (process.env.NODE_ENV == "production") 
   ? `https://captionary-mlart.herokuapp.com/`
   : "http://localhost:3000";
 
 // const HOST = "http://localhost:3000";
+
+const ENDPOINT = (process.env.NODE_ENV == "production") 
+? `https://captionary-mlart.herokuapp.com/`
+: "http://localhost:5000";
 
 const connectionOptions = {
   "force new connection": true,
   reconnectionAttempts: "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
   timeout: 10000, //before connect_error and connect_timeout are emitted.
   transports: ["websocket"],
+  autoconnect: true
 };
 
-const socket = io("http://localhost:5000", connectionOptions);
+const socket = io(ENDPOINT, connectionOptions);
 
 export default function Home() {
   const [error, setError] = useState(null);

@@ -7,6 +7,7 @@ const nextHandler = nextApp.getRequestHandler()
 
 const port = (process.env.PORT || 8080);
 
+console.log("?");
 nextApp.prepare()
 .then(() => {
     const app = express()

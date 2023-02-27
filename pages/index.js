@@ -20,7 +20,7 @@ const HOST = (process.env.NODE_ENV == "production")
 // const HOST = "http://localhost:3000";
 
 const ENDPOINT = (process.env.NODE_ENV == "production") 
-? `https://captionary-server.herokuapp.com:` + process.env.PORT
+? `https://captionary-server.herokuapp.com/`
 : "http://localhost:80";
 
 const connectionOptions = {
@@ -29,7 +29,7 @@ const connectionOptions = {
   timeout: 10000, //before connect_error and connect_timeout are emitted.
   pingInterval: 15000,
   pingTimeout: 30000,
-  //transports: ["websocket"],
+  transports: ["websocket"],
   autoconnect: true
 };
 

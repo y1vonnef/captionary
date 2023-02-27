@@ -30,6 +30,6 @@ This app is powered by:
    npm install
 
    // start both front end and server 
-   npm run dev
+   npm run mono
    ```
 1. Open [localhost:3000](http://localhost:3000) in your browser. That's it!

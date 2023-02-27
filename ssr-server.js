@@ -3,9 +3,9 @@ const next = require('next')
 
 const dev = process.env.NODE_ENV !== 'production'
 const nextApp = next({ dev })
-const handle = nextApp.getRequestHandler()
+const nextHandler = nextApp.getRequestHandler()
 
-const port = (process.env.PORT || 80);
+const port = (process.env.PORT || 8080);
 
 nextApp.prepare()
 .then(() => {
@@ -13,8 +13,8 @@ nextApp.prepare()
     const server =require('http').createServer(app);
     const io = require('socket.io')(server);
     
-    app.get('*', (req, res) => {
-        return handle(req, res)
+    app.all('*', (req, res) => {
+        return nextHandler(req, res)
     })
 
     server.listen(port, (err) => {

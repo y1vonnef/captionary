@@ -27,6 +27,8 @@ const connectionOptions = {
   "force new connection": true,
   reconnectionAttempts: "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
   timeout: 10000, //before connect_error and connect_timeout are emitted.
+  pingInterval: 15000,
+  pingTimeout: 30000,
   transports: ["websocket"],
   autoconnect: true
 };
@@ -36,6 +38,7 @@ const socket = io(connectionOptions);
 export default function Home() {
   const [error, setError] = useState(null);
   const [submissionCount, setSubmissionCount] = useState(0);
+  const [guessCount, setGuessCount] = useState(0);
   const [predictions, setPredictions] = useState({});
   const [isProcessing, setIsProcessing] = useState(false);
   const [scribbleExists, setScribbleExists] = useState(false);
@@ -52,6 +55,12 @@ export default function Home() {
     if (prompt == null) {
       alert("guesser hasn't guessed yet!");
       return;
+    } 
+    console.log("guess count is now " + guessCount);
+    console.log("submission count is now " + submissionCount);
+
+    if (guessCount != submissionCount + 1) {
+      alert("guesser has not submitted another guess, are you sure?");
     }
     e.preventDefault();
 
@@ -126,6 +135,7 @@ export default function Home() {
       //OK SO 'data' IS THE TEXT INPUT TO THE MODEL
       console.log("i am the scribbler and i have the guess and it is" + data);
       setPrompt(data);
+      setGuessCount(guessCount + 1);
     });
     socket.on("have_predicted", (data) => {
       console.log("predictions have returned from scribbler!!");

@@ -11,7 +11,11 @@ nextApp.prepare()
 .then(() => {
     const app = express()
     const server =require('http').createServer(app);
-    const io = require('socket.io')(server, { origins: '*:*'});
+    const io = require('socket.io')(server, {
+        cors: {
+          origin: '*',
+        }
+    });
     
     app.all('*', (req, res) => {
         return nextHandler(req, res)

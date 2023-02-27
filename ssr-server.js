@@ -19,7 +19,8 @@ nextApp.prepare()
           origin: '*',
         }
     });
-    
+    logger.info('message', { key: 'value' });
+    console.log("sdfaefasdf");
     app.all('*', (req, res) => {
         return nextHandler(req, res)
     })

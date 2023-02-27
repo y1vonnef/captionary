@@ -32,7 +32,7 @@ export default function PromptForm({
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Describe the image you want to create..."
           className="block w-full flex-grow rounded-l-md border-none"
-          disabled="true"
+          disabled={true}
         />
 
         <button

@@ -5,7 +5,11 @@ import Link from "next/link";
 import { Fragment, useEffect, useRef, useState } from "react";
 import Loader from "components/loader";
 
-export default function Predictions({ predictions, submissionCount }) {
+export default function Predictions({
+  predictions,
+  submissionCount,
+  isScribblerPressed,
+}) {
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -37,14 +41,21 @@ export default function Predictions({ predictions, submissionCount }) {
               submissionCount == Object.keys(predictions).length && (
                 <div ref={scrollRef} />
               )}
-            <Prediction prediction={prediction} />
+            <Prediction
+              prediction={prediction}
+              isScribblerPressed={isScribblerPressed}
+            />
           </Fragment>
         ))}
     </section>
   );
 }
 
-export function Prediction({ prediction, showLinkToNewScribble = false }) {
+export function Prediction({
+  prediction,
+  isScribblerPressed,
+  showLinkToNewScribble = false,
+}) {
   const [linkCopied, setLinkCopied] = useState(false);
 
   const copyLink = () => {
@@ -72,6 +83,7 @@ export function Prediction({ prediction, showLinkToNewScribble = false }) {
             src={prediction.input.image}
             alt="input scribble"
             className="w-full aspect-square"
+            style={{ display: isScribblerPressed ? "block" : "none" }}
           />
         </div>
         <div className="w-1/2 aspect-square relative">

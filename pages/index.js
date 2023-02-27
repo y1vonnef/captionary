@@ -2,7 +2,7 @@ import Canvas from "components/canvas";
 import PromptForm from "components/prompt-form";
 import GuesserForm from "components/guesser-form";
 import Head from "next/head";
-import { Fragment, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Predictions from "components/predictions";
 import Error from "components/error";
 import uploadFile from "lib/upload";
@@ -12,8 +12,6 @@ import pkg from "../package.json";
 import sleep from "lib/sleep";
 import io from "socket.io-client";
 import SocketContext from "components/socket-context";
-
-import Loader from "components/loader";
 
 const HOST =
   process.env.NODE_ENV == "production"
@@ -237,6 +235,7 @@ export default function Home() {
             predictions={predictions}
             isProcessing={isProcessing}
             submissionCount={submissionCount}
+            isScribblerPressed={isScribblerPressed}
           />
           <div>{submissionCount}</div>
           {/* {Object.values(predictions)

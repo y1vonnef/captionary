@@ -21,7 +21,7 @@ const HOST = (process.env.NODE_ENV == "production")
 
 const ENDPOINT = (process.env.NODE_ENV == "production") 
 ? `https://captionary-server.herokuapp.com//`
-: "http://localhost:5000";
+: "http://localhost:80";
 
 const connectionOptions = {
   "force new connection": true,

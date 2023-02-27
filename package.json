@@ -7,9 +7,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"next dev\" \"node ./server/index.js\"",
+    "dev": "node ssr-server.js",
     "build": "next build",
-    "start": "concurrently \"next start\" \"node ./server/index.js\"",
+    "start": "next start",
     "lint": "next lint",
     "test": "npm run lint && npm run build"
   },

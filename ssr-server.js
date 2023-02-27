@@ -1,5 +1,6 @@
 const express = require('express')
 const next = require('next')
+const logger = require('heroku-logger')
 
 const dev = process.env.NODE_ENV !== 'production'
 const nextApp = next({ dev })
@@ -7,7 +8,8 @@ const nextHandler = nextApp.getRequestHandler()
 
 const port = (process.env.PORT || 8080);
 
-console.log("?");
+logger.info('message', { key: 'value' });
+
 nextApp.prepare()
 .then(() => {
     const app = express()

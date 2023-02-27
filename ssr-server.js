@@ -8,8 +8,6 @@ const nextHandler = nextApp.getRequestHandler()
 
 const port = (process.env.PORT || 8080);
 
-logger.info('message', { key: 'value' });
-
 nextApp.prepare()
 .then(() => {
     const app = express()
@@ -19,8 +17,7 @@ nextApp.prepare()
           origin: '*',
         }
     });
-    logger.info('message', { key: 'value' });
-    console.log("sdfaefasdf");
+
     app.all('*', (req, res) => {
         return nextHandler(req, res)
     })

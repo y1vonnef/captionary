@@ -33,7 +33,7 @@ const connectionOptions = {
   autoconnect: true
 };
 
-const socket = io(ENDPOINT, connectionOptions);
+const socket = io("http://localhost:7237", connectionOptions);
 
 export default function Home() {
   const [error, setError] = useState(null);

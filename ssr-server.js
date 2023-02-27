@@ -9,18 +9,18 @@ const port = (process.env.PORT || 80);
 
 nextApp.prepare()
 .then(() => {
-  const app = express()
-  const server =require('http').createServer(app);
-  const io = require('socket.io')(server);
-  
-  app.get('*', (req, res) => {
-    return handle(req, res)
-  })
+    const app = express()
+    const server =require('http').createServer(app);
+    const io = require('socket.io')(server);
+    
+    app.get('*', (req, res) => {
+        return handle(req, res)
+    })
 
-  server.listen(port, (err) => {
-    if (err) throw err
-    console.log('> Ready on http://localhost:' + port)
-  })
+    server.listen(port, (err) => {
+        if (err) throw err
+        console.log('> Ready on http://localhost:' + port)
+    })
 
     io.sockets.on("connection", (socket) => {
         console.log(`new connection: ${socket.id}`);

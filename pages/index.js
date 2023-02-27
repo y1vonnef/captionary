@@ -20,7 +20,7 @@ const HOST = (process.env.NODE_ENV == "production")
 // const HOST = "http://localhost:3000";
 
 const ENDPOINT = (process.env.NODE_ENV == "production") 
-? `https://captionary-server.herokuapp.com//`
+? `https://captionary-server.herokuapp.com`
 : "http://localhost:80";
 
 const connectionOptions = {
@@ -31,7 +31,7 @@ const connectionOptions = {
   autoconnect: true
 };
 
-const socket = io();
+const socket = io(connectionOptions);
 
 export default function Home() {
   const [error, setError] = useState(null);

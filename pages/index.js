@@ -29,7 +29,7 @@ const connectionOptions = {
   timeout: 10000, //before connect_error and connect_timeout are emitted.
   pingInterval: 15000,
   pingTimeout: 30000,
-  transports: ["websocket"],
+  // transports: ["websocket"],
   autoconnect: true
 };
 

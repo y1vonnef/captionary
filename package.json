@@ -7,7 +7,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node ./ssr-server.js",
     "mono": "node ./ssr-server.js",
     "build": "next build",
     "start": "next start",

@@ -29,10 +29,7 @@ This app is powered by:
    ```
    npm install
 
-   // start frontend app
-   npm run dev
-
-   // start server 
-   node .\server\index.js
+   // start both front end and server 
+   npm run mono
    ```
 1. Open [localhost:3000](http://localhost:3000) in your browser. That's it!

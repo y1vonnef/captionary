@@ -35,7 +35,7 @@ const connectionOptions = {
 
 const socketURL =
   process.env.NODE_ENV === 'production'
-    ? window.location.hostname
+    ? this.props.location.hostname
     : 'http://localhost:5000';
 
 

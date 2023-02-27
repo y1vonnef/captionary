@@ -33,9 +33,13 @@ const connectionOptions = {
   autoconnect: true
 };
 
-const URL =  'http://localhost:' + process.env.PORT;
+const socketURL =
+  process.env.NODE_ENV === 'production'
+    ? window.location.hostname
+    : 'http://localhost:5000';
 
-const socket = io(URL,connectionOptions);
+
+const socket = io(socketURL, connectionOptions);
 
 export default function Home() {
   const [error, setError] = useState(null);

@@ -14,13 +14,13 @@ import io from "socket.io-client";
 import SocketContext from "components/socket-context";
 
 const HOST = (process.env.NODE_ENV == "production") 
-  ? `https://captionary-mlart.herokuapp.com/`
+  ? `http://captionary-mlart.herokuapp.com/`
   : "http://localhost:3000";
 
 // const HOST = "http://localhost:3000";
 
 const ENDPOINT = (process.env.NODE_ENV == "production") 
-? `https://captionary-server.herokuapp.com//`
+? `http://captionary-server.herokuapp.com//`
 : "http://localhost:80";
 
 const connectionOptions = {
@@ -31,7 +31,7 @@ const connectionOptions = {
   autoconnect: true
 };
 
-const socket = io(ENDPOINT, connectionOptions);
+const socket = io(connectionOptions);
 
 export default function Home() {
   const [error, setError] = useState(null);

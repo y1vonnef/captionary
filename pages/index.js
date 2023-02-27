@@ -20,7 +20,7 @@ const HOST = (process.env.NODE_ENV == "production")
 // const HOST = "http://localhost:3000";
 
 const ENDPOINT = (process.env.NODE_ENV == "production") 
-? `https://captionary-server.herokuapp.com` + process.env.PORT
+? `https://captionary-server.herokuapp.com:` + process.env.PORT
 : "http://localhost:80";
 
 const connectionOptions = {

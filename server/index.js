@@ -1,7 +1,6 @@
-
-const app = require('express')();
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const app = require("express")();
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
 
 const port = process.env.PORT || 5000;
 server.listen(port);
@@ -26,12 +25,18 @@ io.sockets.on("connection", (socket) => {
     console.log(data);
     socket.to("scribbling").emit("have_guessed", data);
   });
+  //this is undefined
   socket.on("prediction_done", (data) => {
-    console.log("server received prediction done");
+    console.log("server received prediction done" + data.id);
     socket.to("guessing").emit("have_predicted", data);
   });
   socket.on("prediction_failed", () => {
     console.log("server received prediction failed");
     socket.to("guessing").emit("prediction_failed");
+  });
+  //ADDED
+  socket.on("submission", (data) => {
+    console.log("submission count received" + data);
+    socket.to("guessing").emit("submission_received", data);
   });
 });

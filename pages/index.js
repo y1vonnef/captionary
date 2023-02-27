@@ -2,7 +2,7 @@ import Canvas from "components/canvas";
 import PromptForm from "components/prompt-form";
 import GuesserForm from "components/guesser-form";
 import Head from "next/head";
-import { useState, useEffect } from "react";
+import { Fragment, useState, useEffect } from "react";
 import Predictions from "components/predictions";
 import Error from "components/error";
 import uploadFile from "lib/upload";
@@ -12,6 +12,8 @@ import pkg from "../package.json";
 import sleep from "lib/sleep";
 import io from "socket.io-client";
 import SocketContext from "components/socket-context";
+
+import Loader from "components/loader";
 
 const HOST = process.env.NODE_ENV
   ? `https://captionary-mlart.herokuapp.com/`
@@ -52,6 +54,8 @@ export default function Home() {
 
     // track submissions so we can show a spinner while waiting for the next prediction to be created
     setSubmissionCount(submissionCount + 1);
+    //ADDED
+    socket.emit("submission", submissionCount + 1);
 
     setError(null);
     setIsProcessing(true);
@@ -90,6 +94,9 @@ export default function Home() {
       await sleep(500);
       const response = await fetch("/api/predictions/" + prediction.id);
       prediction = await response.json();
+      //ADDED
+      console.log(prediction.id);
+      socket.emit("prediction_done", prediction);
       setPredictions((predictions) => ({
         ...predictions,
         [prediction.id]: prediction,
@@ -100,7 +107,8 @@ export default function Home() {
         return;
       }
     }
-    socket.emit("prediction_done", predictions);
+    //ADDED
+    // socket.emit("prediction_done", predictions);
     console.log("predictions returned");
     setIsProcessing(false);
   };
@@ -123,8 +131,20 @@ export default function Home() {
       setPrompt(data);
     });
     socket.on("have_predicted", (data) => {
-      console.log("predictions have returned from scribbler!!");
+      //ADDED
+      console.log("predictions have returned from scribbler!!" + data.id);
+      setPredictions((predictions) => ({
+        ...predictions,
+        [data.id]: data,
+      }));
+      console.log(predictions);
       //'data' here should be the images? unclear
+    });
+    //ADDED
+    socket.on("submission_received", (data) => {
+      setSubmissionCount(data);
+      console.log("submission count is now " + submissionCount);
+      console.log(submissionCount);
     });
     return () => {};
   }, []);
@@ -196,12 +216,34 @@ export default function Home() {
             /> */}
             <Error error={error} />
           </div>
-
           <Predictions
             predictions={predictions}
             isProcessing={isProcessing}
             submissionCount={submissionCount}
           />
+          <div>{submissionCount}</div>
+          {/* {Object.values(predictions)
+            .slice()
+            .reverse()
+            .map((prediction, index) => (
+              <Fragment key={prediction.id}>
+                {index === 0 &&
+                  submissionCount == Object.keys(predictions).length && <div />}
+              </Fragment>
+            ))}
+          <div className="w-1/2 aspect-square relative">
+            {predictions.output?.length ? (
+              <img
+                src={prediction.output[prediction.output.length - 1]}
+                alt="output image"
+                className="w-full aspect-square"
+              />
+            ) : (
+              <div className="grid h-full place-items-center">
+                <Loader />
+              </div>
+            )}
+          </div> */}
         </main>
 
         <Script src="https://js.upload.io/upload-js-full/v1" />

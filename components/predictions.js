@@ -9,6 +9,7 @@ export default function Predictions({ predictions, submissionCount }) {
   const scrollRef = useRef(null);
 
   useEffect(() => {
+    //console.log("HERE " + submissionCount);
     if (submissionCount > 0) {
       scrollRef.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -87,14 +88,8 @@ export function Prediction({ prediction, showLinkToNewScribble = false }) {
           )}
         </div>
       </div>
-      <div className="text-center px-4 opacity-60 text-xl">
-        &ldquo;{prediction.input.prompt}&rdquo;
-      </div>
-      <div className="text-center py-2">
-        <button className="lil-button" onClick={copyLink}>
-          <CopyIcon className="icon" />
-          {linkCopied ? "Copied!" : "Copy link"}
-        </button>
+      <div className="text-center px-4 opacity-60 text-xl">Your score is: </div>
+      {/* <div className="text-center py-2">
 
         {showLinkToNewScribble && (
           <Link href="/">
@@ -104,7 +99,7 @@ export function Prediction({ prediction, showLinkToNewScribble = false }) {
             </button>
           </Link>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }

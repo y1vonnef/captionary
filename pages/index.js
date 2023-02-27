@@ -33,6 +33,7 @@ const connectionOptions = {
   autoconnect: true
 };
 
+console.log("port here is " + process.env.PORT);
 const socket = io("http://localhost:7237", connectionOptions);
 
 export default function Home() {

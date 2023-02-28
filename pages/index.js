@@ -12,6 +12,8 @@ import pkg from "../package.json";
 import sleep from "lib/sleep";
 import io from "socket.io-client";
 import SocketContext from "components/socket-context";
+import { output } from "next.config";
+import prompt_map from "lib/prompt_map";
 
 const HOST =
   process.env.NODE_ENV == "production"
@@ -42,10 +44,13 @@ export default function Home() {
   const [submissionCount, setSubmissionCount] = useState(0);
   const [guessCount, setGuessCount] = useState(0);
   const [predictions, setPredictions] = useState({});
+  const [sketchScore, setSketchScore] = useState(null);
+  const [outputScore, setOutputScore] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [scribbleExists, setScribbleExists] = useState(false);
   const [seed] = useState(seeds[Math.floor(Math.random() * seeds.length)]);
   const [initialPrompt] = useState(seed.prompt);
+  const [initialPromptID] = useState(prompt_map[initialPrompt]);
   const [scribble, setScribble] = useState(null);
 
   //game code
@@ -95,6 +100,8 @@ export default function Home() {
       [prediction.id]: prediction,
     }));
 
+    console.log("prediction input url: " + prediction.input.image);
+
     if (response.status !== 201) {
       setError(prediction.detail);
       socket.emit("prediction_failed");
@@ -121,6 +128,40 @@ export default function Home() {
         return;
       }
     }
+
+    console.log("prediction output url: " + prediction.output[prediction.output.length - 1]);
+    console.log("initial prompt id" + initialPromptID);
+
+    const sketch_api_url = 'http://172.26.66.105:8000/score?image_url=' + prediction.input.image + '&id=' + initialPromptID;
+    const output_api_url = 'http://172.26.66.105:8000/score?image_url=' +  prediction.output[prediction.output.length - 1] + '&id=' + initialPromptID;
+
+    // idk if this is the best place to have this ?? tbh idk where to put it in general
+    // to do this properly need the output image link, and the prompt mapped to the id (idk where to get the prompt from here just yet)
+    // if you just run this normally you'll see the scribbler tab console log 0 or 1 
+    const sketch_score = await fetch(sketch_api_url)
+         .then((response) => response.json())
+         .then((data) => {
+            console.log(data);
+            setSketchScore(data);
+         })
+         .catch((err) => {
+            console.log(err.message);
+         });
+    
+    const output_score = await fetch(output_api_url)
+         .then((response) => response.json())
+         .then((data) => {
+            console.log(data);
+            setOutputScore(data);
+         })
+         .catch((err) => {
+            console.log(err.message);
+         });
+    
+
+    console.log("sketch score: " + sketchScore);
+    console.log("output score: " + outputScore);
+
     //ADDED
     // socket.emit("prediction_done", predictions);
     console.log("predictions returned");
@@ -153,7 +194,6 @@ export default function Home() {
         [data.id]: data,
       }));
       console.log(predictions);
-      //'data' here should be the images? unclear
     });
     //ADDED
     socket.on("submission_received", (data) => {
@@ -236,6 +276,8 @@ export default function Home() {
             isProcessing={isProcessing}
             submissionCount={submissionCount}
             isScribblerPressed={isScribblerPressed}
+            sketchScore={sketchScore}
+            outputScore={outputScore}
           />
           <div>{submissionCount}</div>
           {/* {Object.values(predictions)

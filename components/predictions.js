@@ -9,6 +9,8 @@ export default function Predictions({
   predictions,
   submissionCount,
   isScribblerPressed,
+  sketchScore,
+  outputScore,
 }) {
   const scrollRef = useRef(null);
 
@@ -44,6 +46,8 @@ export default function Predictions({
             <Prediction
               prediction={prediction}
               isScribblerPressed={isScribblerPressed}
+              sketchScore={sketchScore}
+              outputScore={outputScore}  
             />
           </Fragment>
         ))}
@@ -55,9 +59,10 @@ export function Prediction({
   prediction,
   isScribblerPressed,
   showLinkToNewScribble = false,
+  sketchScore,
+  outputScore,
 }) {
   const [linkCopied, setLinkCopied] = useState(false);
-  const [scores, setScores] = useState(null);
 
   const copyLink = () => {
     const url = window.location.origin + "/scribbles/" + prediction.id;
@@ -70,19 +75,6 @@ export function Prediction({
     const intervalId = setInterval(() => {
       setLinkCopied(false);
     }, 4 * 1000);
-
-    // idk if this is the best place to have this ?? tbh idk where to put it in general
-    // to do this properly need the output image link, and the prompt mapped to the id (idk where to get the prompt from here just yet)
-    // if you just run this normally you'll see the scribbler tab console log 0 or 1 
-    fetch('http://172.26.66.105:8000/score?image_url=https://replicate.delivery/pbxt/NFSsdG1sVxqUOJrduzNnh8jmON5hKcZBjHYze1qTXNe52siQA/output_1.png&id=3')
-         .then((response) => response.json())
-         .then((data) => {
-            console.log(data);
-            setScores(data);
-         })
-         .catch((err) => {
-            console.log(err.message);
-         });
 
     return () => clearInterval(intervalId);
   
@@ -115,7 +107,7 @@ export function Prediction({
           )}
         </div>
       </div>
-      <div className="text-center px-4 opacity-60 text-xl">Your score is: </div>
+      <div className="text-center px-4 opacity-60 text-xl">Your sketch score is: {sketchScore}</div>
       {/* <div className="text-center py-2">
 
         {showLinkToNewScribble && (

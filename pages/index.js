@@ -21,14 +21,14 @@ const HOST =
     : "http://localhost:3000";
 
     const connectionOptions = {
-  "force new connection": true,
-  reconnectionAttempts: "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
-  timeout: 10000, //before connect_error and connect_timeout are emitted.
-  pingInterval: 15000,
-  pingTimeout: 30000,
-  transports: ["websocket"],
-  autoconnect: true,
-};
+      "force new connection": true,
+      reconnectionAttempts: "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
+      timeout: 10000, //before connect_error and connect_timeout are emitted.
+      pingInterval: 15000,
+      pingTimeout: 30000,
+      transports: ["websocket", "xhr-polling"],
+      autoconnect: true,
+    };
 
 const socket = io(connectionOptions);
 

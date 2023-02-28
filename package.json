@@ -10,7 +10,7 @@
     "dev": "node ./ssr-server.js",
     "mono": "node ./ssr-server.js",
     "build": "next build",
-    "start": "node ./ssr-server.js",
+    "start": "npm start",
     "lint": "next lint",
     "test": "npm run lint && npm run build"
   },

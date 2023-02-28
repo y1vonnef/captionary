@@ -24,9 +24,7 @@ const HOST =
       "force new connection": true,
       reconnectionAttempts: "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
       timeout: 10000, //before connect_error and connect_timeout are emitted.
-      pingInterval: 15000,
-      pingTimeout: 30000,
-      transports: ["websocket", "xhr-polling"],
+      // transports: ["websocket"],
       autoconnect: true,
     };
 

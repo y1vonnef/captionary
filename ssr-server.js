@@ -1,6 +1,5 @@
 const express = require("express");
 const next = require("next");
-const logger = require("heroku-logger");
 
 const dev = process.env.NODE_ENV !== "production";
 const nextApp = next({ dev });

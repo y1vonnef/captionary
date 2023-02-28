@@ -136,6 +136,7 @@ export default function Home() {
          .then((data) => {
             console.log(data);
             setSketchScore(data);
+            socket.emit("sketch_score", data);
          })
          .catch((err) => {
             console.log(err.message);
@@ -193,6 +194,10 @@ export default function Home() {
       setSubmissionCount(data);
       console.log("submission count is now " + submissionCount);
       console.log(submissionCount);
+    });
+    // only for guesser?
+    socket.on("score_received", (data) => {
+      setSketchScore(data);
     });
     return () => {};
   }, []);

@@ -5,7 +5,7 @@ const dev = process.env.NODE_ENV !== "production";
 const nextApp = next({ dev });
 const nextHandler = nextApp.getRequestHandler();
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5000;
 
 nextApp
   .prepare()
@@ -52,6 +52,10 @@ nextApp
       socket.on("submission", (data) => {
         console.log("submission count received" + data);
         socket.to("guessing").emit("submission_received", data);
+      });
+      socket.on("sketch_score", (data) => {
+        console.log("sketch score received" + data);
+        socket.to("guessing").emit("score_received", data);
       });
     });
   })

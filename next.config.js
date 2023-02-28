@@ -8,7 +8,7 @@ const nextConfig = {
       "replicate.delivery",
       "user-images.githubusercontent.com",
       "upcdn.io",
-      "captionary-mlart.herokuapp.com/"
+      "captionary-mlart.herokuapp.com"
     ],
   },
 };

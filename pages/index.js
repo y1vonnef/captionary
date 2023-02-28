@@ -149,6 +149,7 @@ export default function Home() {
          .then((data) => {
             console.log(data);
             setSketchScore(data);
+            socket.emit("sketch_score", data);
          })
          .catch((err) => {
             console.log(err.message);

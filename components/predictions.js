@@ -47,7 +47,7 @@ export default function Predictions({
               prediction={prediction}
               isScribblerPressed={isScribblerPressed}
               sketchScore={sketchScore}
-              outputScore={outputScore}  
+              outputScore={outputScore}
             />
           </Fragment>
         ))}
@@ -77,15 +77,17 @@ export function Prediction({
     }, 4 * 1000);
 
     return () => clearInterval(intervalId);
-  
   }, []);
 
   if (!prediction) return null;
 
   return (
     <div className="mt-6 mb-12">
-      <div className="shadow-lg border my-5 p-5 bg-white flex">
-        <div className="w-1/2 aspect-square relative border">
+      <div className="shadow-lg border my-5 p-5 bg-white flex justify-center">
+        <div
+          className="w-1/2 aspect-square relative border"
+          style={{ width: isScribblerPressed ? "50%" : "auto" }}
+        >
           <img
             src={prediction.input.image}
             alt="input scribble"
@@ -107,7 +109,9 @@ export function Prediction({
           )}
         </div>
       </div>
-      <div className="text-center px-4 opacity-60 text-xl">Your sketch score is: {sketchScore}</div>
+      <div className="text-center px-4 opacity-60 text-xl">
+        Your sketch score is: {sketchScore}
+      </div>
       {/* <div className="text-center py-2">
 
         {showLinkToNewScribble && (

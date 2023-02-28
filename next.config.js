@@ -1,4 +1,4 @@
-/** @type {import('next').NextConfig} */
+/** @type {import('next').NextConfig} **/
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
@@ -15,5 +15,4 @@ env: {
   REPLICATE_API_TOKEN: process.env.REPLICATE_API_TOKEN,
 },
 };
-
 module.exports = nextConfig;

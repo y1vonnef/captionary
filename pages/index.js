@@ -21,12 +21,14 @@ const HOST =
     : "http://localhost:3000";
 
     const connectionOptions = {
-      "force new connection": true,
-      reconnectionAttempts: "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
-      timeout: 10000, //before connect_error and connect_timeout are emitted.
-      // transports: ["websocket"],
-      autoconnect: true,
-    };
+  "force new connection": true,
+  reconnectionAttempts: "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
+  timeout: 10000, //before connect_error and connect_timeout are emitted.
+  pingInterval: 15000,
+  pingTimeout: 30000,
+  transports: ["websocket"],
+  autoconnect: true,
+};
 
 const socket = io(connectionOptions);
 
@@ -122,36 +124,45 @@ export default function Home() {
       }
     }
 
-    console.log("prediction output url: " + prediction.output[prediction.output.length - 1]);
+    console.log(
+      "prediction output url: " +
+        prediction.output[prediction.output.length - 1]
+    );
     console.log("initial prompt id" + initialPromptID);
 
-    const sketch_api_url = 'http://172.26.66.105:8000/score?image_url=' + prediction.input.image + '&id=' + initialPromptID;
-    const output_api_url = 'http://172.26.66.105:8000/score?image_url=' +  prediction.output[prediction.output.length - 1] + '&id=' + initialPromptID;
+    const sketch_api_url =
+      "http://172.26.66.105:8000/score?image_url=" +
+      prediction.input.image +
+      "&id=" +
+      initialPromptID;
+    const output_api_url =
+      "http://172.26.66.105:8000/score?image_url=" +
+      prediction.output[prediction.output.length - 1] +
+      "&id=" +
+      initialPromptID;
 
     // idk if this is the best place to have this ?? tbh idk where to put it in general
     // to do this properly need the output image link, and the prompt mapped to the id (idk where to get the prompt from here just yet)
-    // if you just run this normally you'll see the scribbler tab console log 0 or 1 
+    // if you just run this normally you'll see the scribbler tab console log 0 or 1
     const sketch_score = await fetch(sketch_api_url)
          .then((response) => response.json())
          .then((data) => {
             console.log(data);
             setSketchScore(data);
-            socket.emit("sketch_score", data);
          })
          .catch((err) => {
             console.log(err.message);
          });
     
     const output_score = await fetch(output_api_url)
-         .then((response) => response.json())
-         .then((data) => {
-            console.log(data);
-            setOutputScore(data);
-         })
-         .catch((err) => {
-            console.log(err.message);
-         });
-    
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setOutputScore(data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
 
     console.log("sketch score: " + sketchScore);
     console.log("output score: " + outputScore);
@@ -277,7 +288,7 @@ export default function Home() {
             sketchScore={sketchScore}
             outputScore={outputScore}
           />
-          <div>{submissionCount}</div>
+          {/* <div>{submissionCount}</div> */}
           {/* {Object.values(predictions)
             .slice()
             .reverse()

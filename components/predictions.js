@@ -57,6 +57,7 @@ export function Prediction({
   showLinkToNewScribble = false,
 }) {
   const [linkCopied, setLinkCopied] = useState(false);
+  const [scores, setScores] = useState(null);
 
   const copyLink = () => {
     const url = window.location.origin + "/scribbles/" + prediction.id;
@@ -70,7 +71,21 @@ export function Prediction({
       setLinkCopied(false);
     }, 4 * 1000);
 
+    // idk if this is the best place to have this ?? tbh idk where to put it in general
+    // to do this properly need the output image link, and the prompt mapped to the id (idk where to get the prompt from here just yet)
+    // if you just run this normally you'll see the scribbler tab console log 0 or 1 
+    fetch('http://172.26.66.105:8000/score?image_url=https://replicate.delivery/pbxt/NFSsdG1sVxqUOJrduzNnh8jmON5hKcZBjHYze1qTXNe52siQA/output_1.png&id=3')
+         .then((response) => response.json())
+         .then((data) => {
+            console.log(data);
+            setScores(data);
+         })
+         .catch((err) => {
+            console.log(err.message);
+         });
+
     return () => clearInterval(intervalId);
+  
   }, []);
 
   if (!prediction) return null;

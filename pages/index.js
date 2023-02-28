@@ -86,6 +86,8 @@ export default function Home() {
       },
       body: JSON.stringify(body),
     });
+
+    console.log("post");
     let prediction = await response.json();
 
     setPredictions((predictions) => ({

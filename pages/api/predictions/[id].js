@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     },
   });
 
-  console.log(API_HOST + process.env.REPLICATE_API_HOST);
+
   if (response.status !== 200) {
     let error = await response.json();
     res.statusCode = 500;

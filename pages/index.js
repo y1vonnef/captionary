@@ -20,14 +20,7 @@ const HOST =
     ? `https://captionary-mlart.herokuapp.com/`
     : "http://localhost:3000";
 
-// const HOST = "http://localhost:3000";
-
-const ENDPOINT =
-  process.env.NODE_ENV == "production"
-    ? `https://captionary-server.herokuapp.com/`
-    : "http://localhost:80";
-
-const connectionOptions = {
+    const connectionOptions = {
   "force new connection": true,
   reconnectionAttempts: "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
   timeout: 10000, //before connect_error and connect_timeout are emitted.
